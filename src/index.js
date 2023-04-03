@@ -54,23 +54,23 @@ function onSearchForm(e) {
 }
 
 function onLoadMoreBtn() {
-  page += 1
-  simpleLightBox.destroy()
-
-  fetchImages(query, page, perPage)
-    .then(({ data }) => {
-      renderGallery(data.hits)
-      simpleLightBox = new SimpleLightbox('.gallery a').refresh()
-
-      const totalPages = Math.ceil(data.totalHits / perPage)
-
-      if (page > totalPages) {
-        loadMoreBtn.classList.add('is-hidden')
-        alertEndOfSearch()
-      }
-    })
-    .catch(error => console.log(error))
-}
+    page += 1
+    simpleLightBox.destroy()
+  
+    fetchImages(query, page, perPage)
+      .then(({ data }) => {
+        renderGallery(data.hits)
+        simpleLightBox = new SimpleLightbox('.gallery a').refresh()
+  
+        const totalPages = Math.ceil(data.totalHits / perPage)
+  
+        if (page >= totalPages) {
+          loadMoreBtn.classList.add('is-hidden')
+          alertEndOfSearch()
+        }
+      })
+      .catch(error => console.log(error))
+  }
 
 function alertImagesFound(data) {
   Notiflix.Notify.success(`Hooray! We found ${data.totalHits} images.`)
